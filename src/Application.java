@@ -6,6 +6,7 @@ public class Application {
 
     List<Object> data = new ArrayList<>();
     List<String> features = new ArrayList<String>();
+    features.add("x");
     String outcome = "y";
     SimpleLinearRegression slr = new SimpleLinearRegression("/home/karandalvi/machine_learning/data/squares.csv", features, outcome);
   }
