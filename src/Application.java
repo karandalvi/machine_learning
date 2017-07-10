@@ -4,10 +4,10 @@ public class Application {
 
   public static void main(String[] args) {
 
-    List<Object> data = new ArrayList<>();
-    List<String> features = new ArrayList<String>();
-    features.add("x");
-    String outcome = "y";
-    SimpleLinearRegression slr = new SimpleLinearRegression("/home/karandalvi/machine_learning/data/squares.csv", features, outcome);
+    SimpleLinearRegression slr = new
+    SimpleLinearRegression("/home/karandalvi/machine_learning/data/squares.csv",
+                           "x",   //feature
+                           "y");  //outcome
+
   }
 }

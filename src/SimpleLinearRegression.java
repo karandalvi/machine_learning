@@ -9,16 +9,16 @@ import java.util.HashMap;
 public class SimpleLinearRegression {
 
   Map<String, List<Integer>> data;
-  List<String> features;
+  String feature;
   String outcome;
 
   double slope;
   double intercept;
 
-  public SimpleLinearRegression(String path, List<String> features, String outcome) {
+  public SimpleLinearRegression(String path, String feature, String outcome) {
 
       data = new HashMap<>();
-      this.features = features;
+      this.feature = feature;
       this.outcome = outcome;
       this.readCSV(path);
       this.buildModel();
@@ -50,34 +50,33 @@ public class SimpleLinearRegression {
                   }
 
                   firstLine = false;
-            }
-            else {
+              }
+              else {
 
                 for (int i=0; i<token.length; i++) {
                     data.get(featureList.get(i)).add(Integer.parseInt(token[i]));
                 }
-            }
+              }
+          }
+
+          if (!data.containsKey(outcome) || !data.containsKey(feature))
+              throw new Exception();
+
         }
-
-        if (!data.containsKey(outcome) || !data.containsKey(features.get(0)))
-          throw new Exception();
-
-      }
-      catch (Exception e) {
-          System.out.println(e);
-      }
+        catch (Exception e) {
+            System.out.println(e);
+        }
 
     }
 
- // sum((xi-mean(x)) * (yi-mean(y))) / sum((xi – mean(x))^2)
     private void buildModel() {
         double featureMean = 0;
         double outcomeMean = 0;
 
-        for (int i: data.get(features.get(0))) {
+        for (int i: data.get(feature)) {
             featureMean += (double) i;
         }
-        featureMean = featureMean / data.get(features.get(0)).size();
+        featureMean = featureMean / data.get(feature).size();
 
         for (int i: data.get(outcome)) {
             outcomeMean += (double) i;
@@ -89,14 +88,16 @@ public class SimpleLinearRegression {
 
         for (int i=0; i<data.get(outcome).size(); i++) {
               numerator += ((double) data.get(outcome).get(i) - outcomeMean) *
-                      ((double) data.get(features.get(0)).get(i) - featureMean);
-              denominator += Math.pow(((double) data.get(features.get(0)).get(i)
+                      ((double) data.get(feature).get(i) - featureMean);
+
+              denominator += Math.pow(((double) data.get(feature).get(i)
                               - featureMean), 2);
         }
 
       slope = numerator / denominator;
       intercept = outcomeMean - slope * featureMean;
-      
+
       System.out.println("Model built successfully");
     }
+
 }
