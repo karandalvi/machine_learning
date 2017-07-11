@@ -1,1 +1,3 @@
 /class/
+/py/*.pyc
+/py/.ipynb_checkpoints/
